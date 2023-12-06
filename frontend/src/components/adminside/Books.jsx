@@ -402,7 +402,7 @@ export default function Books({ userType }) {
                 padding: "20px 5px",
               }}
             >
-              Created by: Junil toledo
+              Created by: Aman Anand
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>

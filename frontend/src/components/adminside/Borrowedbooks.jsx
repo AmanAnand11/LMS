@@ -346,7 +346,7 @@ export default function Borrowedbooks({ userType }) {
                 padding: "20px 5px",
               }}
             >
-              Created by: Junil toledo
+              Created by: Aman Anand
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>

@@ -127,7 +127,7 @@ export default function Students({ userType }) {
 
           <CDBSidebarFooter style={{ textAlign: "center" }}>
             <div style={{ padding: "20px 5px" }}>
-              Created by: Junil toledo
+              Created by: Aman Anand
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>
