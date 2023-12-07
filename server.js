@@ -114,11 +114,24 @@ app.get("/api/getAllUser", async (req, res) => {
 });
 
 app.get("/api/getAllBooks", async (req, res) => {
+  //console.log(req.query.query)
   try {
-    const allBooks = await booksModel.find({});
+    // Get the search query from the request parameters
+    const searchQuery = req.query.query;
+
+    // Define the filter based on the search query
+    //console.log(typeof(searchQuery))
+    const filter = searchQuery ? { bookname: searchQuery } : {};
+    //console.log(filter);
+
+    // Use the filter in the find method to fetch books with matching names
+    const allBooks = await booksModel.find(filter);
+    //console.log(allBooks)
+
     res.send({ status: "ok", data: allBooks });
   } catch (error) {
     console.log(error);
+    res.status(500).send({ status: "error", message: "Internal Server Error" });
   }
 });
 

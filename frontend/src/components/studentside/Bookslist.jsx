@@ -1,3 +1,4 @@
+
 import Button from "react-bootstrap/Button";
 import logo from "../assets/images/2072841.png";
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import { toast } from 'react-toastify';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import qs from 'query-string'
 import {
   CDBBtn,
   CDBBox,
@@ -29,6 +31,7 @@ import {
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { VITE_BACKEND_URL } from '../../App';
+import { useDebounce } from "../../../hooks/use-debounce";
 
 export default function Booklist() {
 const [userData, setUserData] = useState("");
@@ -63,16 +66,25 @@ const [student, setStudent] = useState(false);
 
 
   //fetching all user
-  const getAllBooks = async() => {
-    await fetch(`${VITE_BACKEND_URL}/api/getAllBooks`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "bookData");
-        setData(data.data);
+  const getAllBooks = async (search_query) => {
+    try {
+      const response = await fetch(`${VITE_BACKEND_URL}/api/getAllBooks?query=${search_query}`, {
+        method: "GET",
       });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      console.log(data, "bookData");
+      setData(data.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
+  
+  
 
 
  //end get all books
@@ -134,6 +146,8 @@ const [daysborrow, setDaysborrow] = useState("");
 const [studentName, setStudentname] = useState("");
 const [studentid, setStudentId] = useState({});
 const [referenceCode, setReferencecode] = useState("");
+const [query,setQuery] = useState("");
+const [queryhelper,setHelper] = useState("");
 console.log("in booklist.js");
 
 //add borrow book
@@ -225,7 +239,8 @@ const handleSubmit = async(e) => {
         });
     
     };
-
+    const search_query = useDebounce(query,500);
+    console.log(search_query)
   //end add borrow book
   return (
     <div
@@ -248,7 +263,7 @@ const handleSubmit = async(e) => {
             </a>
           </CDBSidebarHeader>
 
-          <CDBSidebarContent className="sidebar-content">
+<CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
               <NavLink
                 exact
@@ -338,12 +353,19 @@ const handleSubmit = async(e) => {
                 <Form.Control
                 placeholder="Search Books.."
                 aria-label="Recipient's username with two button addons"
+                type="text"
+                onChange={(e) => setHelper(e.target.value)}
                 />
-                <Button variant="outline-secondary"> <i className="fa fa-search"></i></Button>
+                <Button variant="outline-secondary"
+                 onClick={(e) => {
+                  setQuery(queryhelper)
+                  getAllBooks(queryhelper)
+                }}
+                 > <i className="fa fa-search"></i></Button>
             </InputGroup></>
               <CDBCardBody>
 
-                {data.map((i) => {
+{data.map((i) => {
                     return (
                       <>
                      <Row >
@@ -367,8 +389,7 @@ const handleSubmit = async(e) => {
                                 <input type="hidden" name="authorname" onChange={(e)=>setAuthorname({authorname,name: e.target.value})}  value={i.authorname}/>
                                 <input type="hidden" name="publishername" onChange={(e)=>setPublishername({publishername,name: e.target.value})} value={i.publishername}/>
                                 <input type="hidden" name="publisheddate" onChange={(e)=>setPublisheddate({publisheddate,name: e.target.value})}  value={i.publisheddate}/>
-                                <b>How many books do you want to borrow?: </b><input type="number" name="quantityToBorrow"  onChange={(e) => setQuantity(e.target.value)}  style={{ width: '50px' }} min={1} max={i.quantity} /><br /><br />  
-                                 {/* <input type="hidden" name="quantity" onChange={(e)=>setQuantity({quantity,name: e.target.value})} value={i.quantity}/> */}
+                                <input type="hidden" name="quantity" onChange={(e)=>setQuantity({quantity,name: e.target.value})} value={i.quantity}/>
                                 <b>How many days you borrow ?: </b><input type="number" name="daysborrow" onChange={(e) => setDaysborrow(e.target.value)} style={{ width: '50px' }} min={1} max={9999}/><br /><br />
                                 <input type="hidden" name="studentName" onChange={(e)=>setStudentname({studentName,name: e.target.value})} value={userData.name}/>
                                 <input type="hidden" name="studentid" onChange={(e)=>setStudentId({studentid,name: e.target.value})} value={userData._id}/>
