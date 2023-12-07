@@ -65,7 +65,7 @@ export default function AdminHome({ userData }) {
                   <Link to="/admin/borrowedbooks">Borrowed Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 exact
                 to="/admin/returnedbooks"
                 activeClassName="activeClicked"
@@ -73,12 +73,12 @@ export default function AdminHome({ userData }) {
                 <CDBSidebarMenuItem icon="book">
                   <Link to="/admin/returnedbooks">Returned Books</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
-              <NavLink exact to="/admin/damagecharge" activeClassName="activeClicked">
+              </NavLink> */}
+              {/* <NavLink exact to="/admin/damagecharge" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="address-book">
                   <Link to="/admin/damagecharge">Damage Charge</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
+              </NavLink> */}
               <NavLink exact to="/admin/students" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="user"><Link to="/admin/students">Students</Link></CDBSidebarMenuItem>
               </NavLink>

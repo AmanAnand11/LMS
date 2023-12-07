@@ -68,6 +68,19 @@ export default function Students({ userType }) {
       });
   };
 
+  //deleting Users
+  const deleteStudent = async (id) => {
+    try {
+      await axios.delete(`${VITE_BACKEND_URL}/api/delete-student/${id}`);
+      toast.success("Delete a User successfully");
+      getAllStudents();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  //end deleting users
+
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "scroll initial" }}>
       <CDBBox display="flex" alignContent="start">
@@ -95,7 +108,7 @@ export default function Students({ userType }) {
                   <Link to="/admin/borrowedbooks">Borrowed Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink>
-              <NavLink exact to="/admin/returnedbooks" activeClassName="activeClicked">
+              {/* <NavLink exact to="/admin/returnedbooks" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="book">
                   <Link to="/admin/returnedbooks">Returned Books</Link>
                 </CDBSidebarMenuItem>
@@ -104,7 +117,7 @@ export default function Students({ userType }) {
                 <CDBSidebarMenuItem icon="address-book">
                   <Link to="/admin/damagecharge">Damage Charge</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
+              </NavLink> */}
               <NavLink exact to="/admin/students" activeClassName="activeClicked">
                 <CDBSidebarMenuItem icon="user">
                   <Link to="/admin/students">Students</Link>
@@ -140,11 +153,13 @@ export default function Students({ userType }) {
               <Table className="table table-bordered">
                 <thead>
                   <tr>
-                    <td>Image</td>
+                   
                     <th>Student Id</th>
                     <th>Student Name</th>
                     <th>Student Email</th>
                     <th>Course</th>
+
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -153,24 +168,25 @@ export default function Students({ userType }) {
                     // Check if i.studentid is an empty string, if true, skip rendering the row
                     i.studentid === "" ? null : (
                       <tr key={index}>
-                        <td>
-                          {i.image == "" || i.image == null ? (
-                            <img
-                              width={60}
-                              height={60}
-                              src="https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg"
-                              alt="default image"
-                              style={{ width: "60", height: "60" }}
-                            />
-                          ) : (
-                            <img width={60} height={60} src={i.image} alt={`student ${index + 1}`} />
-                          )}
-                        </td>
+                       
+                       
                         {console.log(i.studentid + i.email + i.name)}
                         <td>{i.studentid}</td>
                         <td>{i.name}</td>
                         <td>{i.email}</td>
                         <td>{i.course}</td>
+                        <td>
+                        <div className="flex-1">
+                                  <CDBBtn
+                                    color="danger"
+                                    onClick={() =>
+                                      deleteborrowedBook(i._id, i.studentName)
+                                    }
+                                  >
+                                    Delete
+                                  </CDBBtn>
+                                </div>
+                        </td>
                       </tr>
                     )
                   ))}

@@ -347,7 +347,7 @@ export default function Books({ userType }) {
                   <Link to="/admin/borrowedbooks">Borrowed Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 exact
                 to="/admin/returnedbooks"
                 activeClassName="activeClicked"
@@ -355,8 +355,8 @@ export default function Books({ userType }) {
                 <CDBSidebarMenuItem icon="book">
                   <Link to="/admin/returnedbooks">Returned Books</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
-              <NavLink
+              </NavLink> */}
+              {/* <NavLink
                 exact
                 to="/admin/damagecharge"
                 activeClassName="activeClicked"
@@ -364,7 +364,7 @@ export default function Books({ userType }) {
                 <CDBSidebarMenuItem icon="address-book">
                   <Link to="/admin/damagecharge">Damage Charge</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 exact
                 to="/admin/students"

@@ -45,7 +45,7 @@ export default function Borrowedbooks({ userType }) {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-        body: JSON.stringify({
+      body: JSON.stringify({
         token: window.localStorage.getItem("token"),
       }),
     })
@@ -57,7 +57,7 @@ export default function Borrowedbooks({ userType }) {
         }
 
         setUserData(data.data);
-        
+
 
         // if (data.data == "token expired") {
         //   alert("Token expired login again");
@@ -291,7 +291,7 @@ export default function Borrowedbooks({ userType }) {
                   <Link to="/admin/borrowedbooks">Borrowed Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 exact
                 to="/admin/returnedbooks"
                 activeClassName="activeClicked"
@@ -308,7 +308,7 @@ export default function Borrowedbooks({ userType }) {
                 <CDBSidebarMenuItem icon="address-book">
                   <Link to="/admin/damagecharge">Damage Charge</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 exact
                 to="/admin/students"
@@ -412,7 +412,7 @@ export default function Borrowedbooks({ userType }) {
                                     }
                                   >
                                     <span
-                                      onClick={() => {setSmShow(true); setQuantityToBorrow(i.quantity); setIsbnNumber(i.ISBNNumber)}}
+                                      onClick={() => { setSmShow(true); setQuantityToBorrow(i.quantity); setIsbnNumber(i.ISBNNumber) }}
                                       className="me-2"
                                     >
                                       Edit
@@ -461,18 +461,19 @@ export default function Borrowedbooks({ userType }) {
                     type="text"
                     style={{ display: "none" }}
                     name="id"
-                    onChange={(e) =>{
-                      
+                    onChange={(e) => {
+
                       setStatus({ ...status, name: e.target.value })
-                      console.log(e.target.value)}
+                      console.log(e.target.value)
+                    }
                     }
                     value={status.id}
                   />
                   <MyForm.Select
                     name="status"
                     value={status.status}
-                    onChange={(e) =>{
-                      setStatus({id:status.id, status: e.target.value })
+                    onChange={(e) => {
+                      setStatus({ id: status.id, status: e.target.value })
                     }
                     }
                     aria-label="Default select example"
@@ -498,6 +499,6 @@ export default function Borrowedbooks({ userType }) {
       </CDBBox>
     </div>
   ) : (
-    <div><Unauthorized/></div>
+    <div><Unauthorized /></div>
   )
 }

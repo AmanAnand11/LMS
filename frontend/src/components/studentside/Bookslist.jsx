@@ -1,4 +1,3 @@
-
 import Button from "react-bootstrap/Button";
 import logo from "../assets/images/2072841.png";
 import { useEffect, useState } from "react";
@@ -34,8 +33,8 @@ import { VITE_BACKEND_URL } from '../../App';
 import { useDebounce } from "../../../hooks/use-debounce";
 
 export default function Booklist() {
-const [userData, setUserData] = useState("");
-const [student, setStudent] = useState(false);
+  const [userData, setUserData] = useState("");
+  const [student, setStudent] = useState(false);
 
   const [data, setData] = useState([]);
   const logOut = () => {
@@ -43,24 +42,24 @@ const [student, setStudent] = useState(false);
     window.location.href = "../../";
   };
 
-//convert to base64 format
+  //convert to base64 format
   function covertToBase64(e) {
     console.log(e);
     var reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-        console.log(reader.result); //base64encoded string  
-        setImage(reader.result);
+      console.log(reader.result); //base64encoded string  
+      setImage(reader.result);
     };
     reader.onerror = error => {
-        console.log("Error: ", error);
+      console.log("Error: ", error);
     };
-}
-//end convert to base64 format
+  }
+  //end convert to base64 format
 
- //get all books
+  //get all books
 
- useEffect(() => {
+  useEffect(() => {
     getAllBooks({});
   }, []);
 
@@ -71,11 +70,11 @@ const [student, setStudent] = useState(false);
       const response = await fetch(`${VITE_BACKEND_URL}/api/getAllBooks?query=${search_query}`, {
         method: "GET",
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       console.log(data, "bookData");
       setData(data.data);
@@ -83,11 +82,11 @@ const [student, setStudent] = useState(false);
       console.error("Error fetching data:", error);
     }
   };
-  
-  
 
 
- //end get all books
+
+
+  //end get all books
 
   useEffect(() => {
     fetch(`${VITE_BACKEND_URL}/api/userData`, {
@@ -98,7 +97,7 @@ const [student, setStudent] = useState(false);
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-        body: JSON.stringify({
+      body: JSON.stringify({
         token: window.localStorage.getItem("token"),
       }),
     })
@@ -106,7 +105,7 @@ const [student, setStudent] = useState(false);
       .then((data) => {
         console.log(data, "userData");
         if (data.data.userType == "student") {
-            setStudent(true);
+          setStudent(true);
         }
 
         setUserData(data.data);
@@ -131,116 +130,116 @@ const [student, setStudent] = useState(false);
       counter += 1;
     }
     return result;
-}
+  }
   //end reference code below
 
-///console.log(makeid(5));
+  ///console.log(makeid(5));
 
-const [bookname, setBookname] = useState("");
-const [ISBNNumber, setISBNNumber] = useState("");
-const [authorname, setAuthorname] = useState("");
-const [publishername, setPublishername] = useState("");
-const [publisheddate, setPublisheddate] = useState("");
-const [quantity, setQuantity] = useState("");
-const [daysborrow, setDaysborrow] = useState("");
-const [studentName, setStudentname] = useState("");
-const [studentid, setStudentId] = useState({});
-const [referenceCode, setReferencecode] = useState("");
-const [query,setQuery] = useState("");
-const [queryhelper,setHelper] = useState("");
-console.log("in booklist.js");
+  const [bookname, setBookname] = useState("");
+  const [ISBNNumber, setISBNNumber] = useState("");
+  const [authorname, setAuthorname] = useState("");
+  const [publishername, setPublishername] = useState("");
+  const [publisheddate, setPublisheddate] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [daysborrow, setDaysborrow] = useState("");
+  const [studentName, setStudentname] = useState("");
+  const [studentid, setStudentId] = useState({});
+  const [referenceCode, setReferencecode] = useState("");
+  const [query, setQuery] = useState("");
+  const [queryhelper, setHelper] = useState("");
+  console.log("in booklist.js");
 
-//add borrow book
-const handleSubmit = async(e) => {
-  e.preventDefault();
+  //add borrow book
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(e.target, "please debug");
+    const bookname = e.target[0].value
+    console.log("=======bookname=======");
+    console.log(bookname)
 
-      const bookname = e.target[0].value
-      console.log("=======bookname=======");
-      console.log(bookname)
+    const ISBNNumber = e.target[1].value
+    console.log("=======ISBNNumber=======");
+    console.log(ISBNNumber)
 
-      const ISBNNumber = e.target[1].value
-      console.log("=======ISBNNumber=======");
-      console.log(ISBNNumber)
+    const authorname = e.target[2].value
+    console.log("=======authorname=======");
+    console.log(authorname)
 
-      const authorname = e.target[2].value
-      console.log("=======authorname=======");
-      console.log(authorname)
+    const publishername = e.target[3].value
+    console.log("=======publishername=======");
+    console.log(publishername)
 
-      const publishername = e.target[3].value
-      console.log("=======publishername=======");
-      console.log(publishername)
+    const publisheddate = e.target[4].value
+    console.log("=======publisheddate=======");
+    console.log(publisheddate)
 
-      const publisheddate = e.target[4].value
-      console.log("=======publisheddate=======");
-      console.log(publisheddate)
+    const quantity = e.target[5].value
+    console.log("=======quantity=======");
+    console.log(quantity)
 
-      const quantity = e.target[5].value
-      console.log("=======quantity=======");
-      console.log(quantity)
+    const daysborrow = e.target[6].value
+    console.log("=======daysborrow=======");
+    console.log(daysborrow)
 
-      const daysborrow = e.target[6].value
-      console.log("=======daysborrow=======");
-      console.log(daysborrow)
+    const studentName = e.target[7].value
+    console.log("=======studentName=======");
+    console.log(studentName)
 
-      const studentName = e.target[7].value
-      console.log("=======studentName=======");
-      console.log(studentName)
+    const studentid = e.target[8].value
+    console.log("=======studentid=======");
+    console.log(studentid)
 
-      const studentid = e.target[8].value
-      console.log("=======studentid=======");
-      console.log(studentid)
+    const referenceCode = e.target[9].value
+    console.log("=======referenceCode=======");
+    console.log(referenceCode)
 
-      const referenceCode = e.target[9].value
-      console.log("=======referenceCode=======");
-      console.log(referenceCode)
+    e.preventDefault();
+    await fetch(`${VITE_BACKEND_URL}/api/add-borrowbook`, {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        bookname,
+        ISBNNumber,
+        authorname,
+        publishername,
+        publisheddate,
+        quantity,
+        daysborrow,
+        studentName,
+        studentid,
+        referenceCode
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log("===============borrowbook-added================");
+        // console.log(data, "borrowbook-added");
+        if (data.status == "ok") {
+          toast.success("Add borrow book successfully")
+          setTimeout(() => {
+            window.location.href = "/student/booklists?";
+          }, 2000);
 
-      e.preventDefault();
-      await fetch(`${VITE_BACKEND_URL}/api/add-borrowbook`, {
-        method: "POST",
-        crossDomain: true,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          bookname,
-          ISBNNumber,
-          authorname,
-          publishername,
-          publisheddate,
-          quantity,
-          daysborrow,
-          studentName,
-          studentid,
-          referenceCode
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log("===============borrowbook-added================");
-          // console.log(data, "borrowbook-added");
-          if (data.status == "ok") {
-            toast.success("Add borrow book successfully")
-            setTimeout(() => {
-                window.location.href = "/student/booklists?";
-              }, 2000);
-            
-            getAllBooks();
+          getAllBooks();
           // }else if (data.status == "notok") {
           //   toast.warning("Book already exists")
           //   setTimeout(() => {
           //       window.location.href = "/student/booklists";
           //     }, 2000);
           // }
-          } else {
-            toast.error("Something went wrong")
-          }
-        });
-    
-    };
-    const search_query = useDebounce(query,500);
-    console.log(search_query)
+        } else {
+          toast.error("Something went wrong")
+        }
+      });
+
+  };
+  const search_query = useDebounce(query, 500);
+  console.log(search_query)
   //end add borrow book
   return (
     <div
@@ -263,7 +262,7 @@ const handleSubmit = async(e) => {
             </a>
           </CDBSidebarHeader>
 
-<CDBSidebarContent className="sidebar-content">
+          <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
               <NavLink
                 exact
@@ -288,7 +287,7 @@ const handleSubmit = async(e) => {
                   <Link to="/student/borrowedbooklists">Borrowed Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 exact
                 to="/admin/returnedbooks"
                 activeClassName="activeClicked"
@@ -296,9 +295,9 @@ const handleSubmit = async(e) => {
                 <CDBSidebarMenuItem icon="book">
                   <Link to="/admin/returnedbooks">Returned Books</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
-    
-              <NavLink
+              </NavLink> */}
+
+              {/* <NavLink
                 exact
                 to="/admin/students"
                 activeClassName="activeClicked"
@@ -306,8 +305,8 @@ const handleSubmit = async(e) => {
                 <CDBSidebarMenuItem icon="user">
                   <Link to="/admin/students">Profile</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
-      
+              </NavLink> */}
+
 
               <NavLink
                 exact
@@ -349,69 +348,70 @@ const handleSubmit = async(e) => {
           <CDBContainer>
             <CDBCard>
               <>
-              <InputGroup className="mb-3 mt-3" style={{ padding:'10px' }}>
-                <Form.Control
-                placeholder="Search Books.."
-                aria-label="Recipient's username with two button addons"
-                type="text"
-                onChange={(e) => setHelper(e.target.value)}
-                />
-                <Button variant="outline-secondary"
-                 onClick={(e) => {
-                  setQuery(queryhelper)
-                  getAllBooks(queryhelper)
-                }}
-                 > <i className="fa fa-search"></i></Button>
-            </InputGroup></>
+                <InputGroup className="mb-3 mt-3" style={{ padding: '10px' }}>
+                  <Form.Control
+                    placeholder="Search Books.."
+                    aria-label="Recipient's username with two button addons"
+                    type="text"
+                    onChange={(e) => setHelper(e.target.value)}
+                  />
+                  <Button variant="outline-secondary"
+                    onClick={(e) => {
+                      setQuery(queryhelper)
+                      getAllBooks(queryhelper)
+                    }}
+                  > <i className="fa fa-search"></i></Button>
+                </InputGroup></>
               <CDBCardBody>
 
-{data.map((i) => {
-                    return (
-                      <>
-                     <Row >
-                      
+                {data.map((i) => {
+                  return (
+                    <>
+                      <Row >
+
                         <Col className="col-auto flex">
-              
-                          {i.image == "" || i.image == null ? <img width={150} height={150} src='https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg'  alt='default image' style={{ width:'60', height:'60' }}/> : <img width={150} height={150} src={i.image} className="img-size" />}
-                      
-                         <div className="flot">
-                      
-                           <h4 className="title-book">{i.bookname}</h4>
-                             <p className="p-desc">
-                                <b>ISBN Number:</b> {i.ISBNNumber}<br />
-                                <b>Author Name:</b> {i.authorname}<br />
-                                <b>Publisher Name:</b> {i.publishername}<br />
-                                <b>Published Date:</b> {i.publisheddate}<br />
-                                <b>Quantity:</b> {i.quantity}<br />
+
+                          {i.image == "" || i.image == null ? <img width={150} height={150} src='https://st.depositphotos.com/2934765/53192/v/450/depositphotos_531920820-stock-illustration-photo-available-vector-icon-default.jpg' alt='default image' style={{ width: '60', height: '60' }} /> : <img width={150} height={150} src={i.image} className="img-size" />}
+
+                          <div className="flot">
+
+                            <h4 className="title-book">{i.bookname}</h4>
+                            <p className="p-desc">
+                              <b>ISBN Number:</b> {i.ISBNNumber}<br />
+                              <b>Author Name:</b> {i.authorname}<br />
+                              <b>Publisher Name:</b> {i.publishername}<br />
+                              <b>Published Date:</b> {i.publisheddate}<br />
+                              <b>Quantity:</b> {i.quantity}<br />
                               <Form onSubmit={handleSubmit}>
-                                <input type="hidden" name="bookname" onChange={(e)=>setBookname({bookname, name: e.target.value})} value={i.bookname}/>
-                                <input type="hidden" name="ISBNNumber" onChange={(e)=>setISBNNumber({ISBNNumber ,name: e.target.value})}  value={i.ISBNNumber}/>
-                                <input type="hidden" name="authorname" onChange={(e)=>setAuthorname({authorname,name: e.target.value})}  value={i.authorname}/>
-                                <input type="hidden" name="publishername" onChange={(e)=>setPublishername({publishername,name: e.target.value})} value={i.publishername}/>
-                                <input type="hidden" name="publisheddate" onChange={(e)=>setPublisheddate({publisheddate,name: e.target.value})}  value={i.publisheddate}/>
-                                <input type="hidden" name="quantity" onChange={(e)=>setQuantity({quantity,name: e.target.value})} value={i.quantity}/>
-                                <b>How many days you borrow ?: </b><input type="number" name="daysborrow" onChange={(e) => setDaysborrow(e.target.value)} style={{ width: '50px' }} min={1} max={9999}/><br /><br />
-                                <input type="hidden" name="studentName" onChange={(e)=>setStudentname({studentName,name: e.target.value})} value={userData.name}/>
-                                <input type="hidden" name="studentid" onChange={(e)=>setStudentId({studentid,name: e.target.value})} value={userData._id}/>
-                                <input type="hidden" name="referenceCode" onChange={(e)=>setReferencecode({referenceCode,name: e.target.value})} value={makeid(8)} />
+                                <input type="hidden" name="bookname" onChange={(e) => setBookname({ bookname, name: e.target.value })} value={i.bookname} />
+                                <input type="hidden" name="ISBNNumber" onChange={(e) => setISBNNumber({ ISBNNumber, name: e.target.value })} value={i.ISBNNumber} />
+                                <input type="hidden" name="authorname" onChange={(e) => setAuthorname({ authorname, name: e.target.value })} value={i.authorname} />
+                                <input type="hidden" name="publishername" onChange={(e) => setPublishername({ publishername, name: e.target.value })} value={i.publishername} />
+                                <input type="hidden" name="publisheddate" onChange={(e) => setPublisheddate({ publisheddate, name: e.target.value })} value={i.publisheddate} />
+                                <b>How many books do you want to borrow?: </b><input type="number" name="quantityToBorrow" onChange={(e) => setQuantity(e.target.value)} style={{ width: '50px' }} min={1} max={i.quantity} /><br /><br />
+                                {/* <input type="hidden" name="quantity" onChange={(e)=>setQuantity({quantity,name: e.target.value})} value={i.quantity}/> */}
+                                <b>How many days you borrow ?: </b><input type="number" name="daysborrow" onChange={(e) => setDaysborrow(e.target.value)} style={{ width: '50px' }} min={1} max={9999} /><br /><br />
+                                <input type="hidden" name="studentName" onChange={(e) => setStudentname({ studentName, name: e.target.value })} value={userData.name} />
+                                <input type="hidden" name="studentid" onChange={(e) => setStudentId({ studentid, name: e.target.value })} value={userData._id} />
+                                <input type="hidden" name="referenceCode" onChange={(e) => setReferencecode({ referenceCode, name: e.target.value })} value={makeid(8)} />
                                 <CDBBtn color="success" type="submit">Borrow Book</CDBBtn>
                               </Form>
-                             </p>
-                            
-                         </div>
+                            </p>
+
+                          </div>
                         </Col>
-                     </Row>
+                      </Row>
 
                     </>
-                    );
+                  );
                 })}
-       
+
               </CDBCardBody>
             </CDBCard>
           </CDBContainer>
         </>
-  
-     
+
+
       </CDBBox>
     </div>
   );

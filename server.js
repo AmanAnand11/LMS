@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const booksModel = require("./models/bookModel");
 const borrowbooksModel = require("./models/borrowbookModel");
 
-const  author  = require("./models/author");
+const author = require("./models/author");
 const books = require("./models/book");
 
 const MONGO_URL = process.env.MONGO_URL;
@@ -121,7 +121,9 @@ app.get("/api/getAllBooks", async (req, res) => {
 
     // Define the filter based on the search query
     //console.log(typeof(searchQuery))
-    const filter = searchQuery ? { bookname: { $regex: searchQuery, $options: "i" } } : {};
+    const filter = searchQuery
+      ? { bookname: { $regex: searchQuery, $options: "i" } }
+      : {};
     //console.log(filter);
 
     // Use the filter in the find method to fetch books with matching names
@@ -155,7 +157,7 @@ app.post("/api/add-book", async (req, res) => {
       publishername,
       publisheddate,
       quantity,
-      image: base64
+      image: base64,
     });
     res.send({ status: "ok" });
   } catch (error) {
@@ -163,81 +165,77 @@ app.post("/api/add-book", async (req, res) => {
   }
 });
 
-
 app.delete("/api/delete-book/:id", async (req, res) => {
   try {
-     const {id} = req.params;
-     const book = await booksModel.findByIdAndDelete(id);
-     if(!book){
-      res.status(404)
-      throw new Error(`cannot find any book with ID ${id}`) 
-     } 
-     res.status(200).json(book);
-    } catch (error) {
-      res.status(500)
-      throw new Error(error.message)
-  }
-})
-
-app.get("/api/get-student/", async (req, res) => {
-    console.log("HUwwwww");
-    try {
-      // Check if req.body.id is defined
-      const { id } = req.body;
-      if (!id) {
-        res.status(400); // Bad Request
-        throw new Error("ID is required in the request body");
-      }
-  
-      // Assuming `id` is already a string, there's no need to stringify it
-      // If `id` is not a string, make sure it's properly converted to a string before using it
-  
-      const student = await studentModel.findOne({ studentid: id });
-  
-      if (!student) {
-        res.status(404);
-        throw new Error(`Cannot find any student with ID ${id}`);
-      }
-  
-      res.status(200).json(student);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    const { id } = req.params;
+    const book = await booksModel.findByIdAndDelete(id);
+    if (!book) {
+      res.status(404);
+      throw new Error(`cannot find any book with ID ${id}`);
     }
-  });
-
-app.get("/api/get-singlebook/:id", async (req, res) => {
-  try {
-     const {id} = req.body;
-     const book = await booksModel.findOne(id);
-     if(!book){
-      res.status(404)
-      throw new Error(`cannot find any book with ID ${id}`) 
-     } 
-     res.status(200).json(book);
+    res.status(200).json(book);
   } catch (error) {
-      res.status(500)
-      throw new Error(error.message)
-  //    res.status(500).json({message: error.message}) 
+    res.status(500);
+    throw new Error(error.message);
   }
 });
 
+app.get("/api/get-student/", async (req, res) => {
+  console.log("HUwwwww");
+  try {
+    // Check if req.body.id is defined
+    const { id } = req.body;
+    if (!id) {
+      res.status(400); // Bad Request
+      throw new Error("ID is required in the request body");
+    }
+
+    // Assuming `id` is already a string, there's no need to stringify it
+    // If `id` is not a string, make sure it's properly converted to a string before using it
+
+    const student = await studentModel.findOne({ studentid: id });
+
+    if (!student) {
+      res.status(404);
+      throw new Error(`Cannot find any student with ID ${id}`);
+    }
+
+    res.status(200).json(student);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/get-singlebook/:id", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const book = await booksModel.findOne(id);
+    if (!book) {
+      res.status(404);
+      throw new Error(`cannot find any book with ID ${id}`);
+    }
+    res.status(200).json(book);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error.message);
+    //    res.status(500).json({message: error.message})
+  }
+});
 
 app.put("/api/updatebook/:id", async (req, res) => {
   try {
-     const {id} = req.params;
-     const books = await booksModel.findByIdAndUpdate(id, req.body);
-     if(!books){
-      res.status(404)
-      throw new Error(`cannot find any product with ID ${id}`) 
-
-     } 
-     await booksModel.findById(id);
-     res.send({ status: "ok" });
-    } catch (error) {
-      res.send({ status: "error" });
+    const { id } = req.params;
+    const books = await booksModel.findByIdAndUpdate(id, req.body);
+    if (!books) {
+      res.status(404);
+      throw new Error(`cannot find any product with ID ${id}`);
     }
-})
-
+    await booksModel.findById(id);
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.send({ status: "error" });
+  }
+});
 
 //borrow books
 
@@ -253,8 +251,7 @@ app.post("/api/add-borrowbook", async (req, res) => {
     studentName,
     studentid,
     referenceCode,
-    status
-
+    status,
   } = req.body;
   // const bookExists = await borrowbooksModel.findOne({ bookname: bookname });
   // if (bookExists) {
@@ -272,7 +269,7 @@ app.post("/api/add-borrowbook", async (req, res) => {
       quantity,
       daysborrow,
       studentName,
-      borrowed:{
+      borrowed: {
         _id: studentid,
         bookname: bookname,
         ISBNNumber: ISBNNumber,
@@ -282,13 +279,11 @@ app.post("/api/add-borrowbook", async (req, res) => {
         quantity: quantity,
         daysborrow: daysborrow,
         studentName: studentName,
-
       },
       referenceCode,
       status: "pending",
-
     });
-    
+
     res.send({ status: "ok" });
   } catch (error) {
     res.send({ status: "error" });
@@ -306,62 +301,111 @@ app.get("/api/getAllBorrowedBooks", async (req, res) => {
 
 app.delete("/api/delete-borrowedbook/:id", async (req, res) => {
   try {
-     const {id} = req.params;
-     const borrowedbook = await borrowbooksModel.findByIdAndDelete(id);
-     if(!borrowedbook){
-      res.status(404)
-      throw new Error(`cannot find any borrowed book with ID ${id}`) 
-     } 
-     res.status(200).json(borrowedbook);
-    } catch (error) {
-      res.status(500)
-      throw new Error(error.message)
+    const { id } = req.params;
+    const borrowedbook = await borrowbooksModel.findByIdAndDelete(id);
+    if (!borrowedbook) {
+      res.status(404);
+      throw new Error(`cannot find any borrowed book with ID ${id}`);
+    }
+    res.status(200).json(borrowedbook);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error.message);
   }
-})
+});
 
 app.get("/api/get-singleborrowedbook/:id", async (req, res) => {
   try {
-     const {id} = req.body;
-     const bbook = await borrowbooksModel.findOne(id);
-     if(!bbook){
-      res.status(404)
-      throw new Error(`cannot find any borrowed book with ID ${id}`) 
-     } 
-     res.status(200).json(bbook);
+    const { id } = req.body;
+    const bbook = await borrowbooksModel.findOne(id);
+    if (!bbook) {
+      res.status(404);
+      throw new Error(`cannot find any borrowed book with ID ${id}`);
+    }
+    res.status(200).json(bbook);
   } catch (error) {
-      res.status(500)
-      throw new Error(error.message)
-  //    res.status(500).json({message: error.message}) 
+    res.status(500);
+    throw new Error(error.message);
+    //    res.status(500).json({message: error.message})
   }
 });
 
 app.put("/api/updateborrowedbook/:id", async (req, res) => {
   try {
-     const {id} = req.params;
-     const bbooks = await borrowbooksModel.findByIdAndUpdate(id, req.body);
-     if(!bbooks){
-      res.status(404)
-      throw new Error(`cannot find any borrowed book with ID ${id}`) 
+    const { id } = req.params;
+    console.log("from updatebook route", req.body);
+    const { status, quantity, ISBNNumber } = req.body;
 
-     } 
-     await borrowbooksModel.findById(id);
-     res.send({ status: "ok" });
-    } catch (error) {
-      res.send({ status: "error" });
+    // Fetch the book from booksModel using isbnnumber
+    const book = await booksModel.findOne({ ISBNNumber });
+    if (!book) {
+      console.log("ERROR: cannot find any book with ISBN number");
+      res.status(404);
+      throw new Error(`cannot find any book with ISBN number ${ISBNNumber}`);
     }
-})
+    console.log("found booksModel with correct isbn");
 
+    if (status == "approved") {
+      // Calculate the updated quantity
+      const updatedQuantity = book.quantity - quantity;
+      console.log("updatedQuantity", updatedQuantity);
+      // Check if updatedQuantity is not a negative number
+      if (updatedQuantity < 0) {
+        res.status(400);
+        throw new Error("Requested quantity is more than available quantity");
+      }
 
+      // Update the book in booksModel with the new quantity
+      await booksModel.updateOne({ ISBNNumber }, { quantity: updatedQuantity });
+
+      console.log("updated booksModel with new quantity");
+    }
+
+    const bbooks = await borrowbooksModel.findByIdAndUpdate(id, { status });
+    if (!bbooks) {
+      res.status(404);
+      throw new Error(`cannot find any borrowed book with ID ${id}`);
+    }
+    await borrowbooksModel.findById(id);
+    console.log("updated borrowbooksModel with new status");
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.send({ status: "error" });
+  }
+});
+
+app.post("/api/returnbook", async (req, res) => {
+  try {
+    const { _id, ISBNNumber, quantityBorrowed } = req.body;
+    console.log(_id, ISBNNumber, quantityBorrowed, "from returnbook api route");
+
+    // Delete the entry from borrowedBooksModel
+    await borrowbooksModel.findByIdAndDelete(_id);
+
+    // Find the book in booksModel and update its quantity
+    const book = await booksModel.findOne({ ISBNNumber });
+
+    book.quantity = (
+      parseInt(book.quantity) + parseInt(quantityBorrowed)
+    ).toString();
+    await book.save();
+
+    res.status(200).json({ message: "Book returned successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
 //end borrowed books
 
 //studen borrow book
 
 app.get("/api/borrowedbooklists/:id", async (req, res) => {
   try {
-    const id  = "6531779949714d336c9f1271";
+    const id = "6531779949714d336c9f1271";
     //  const studentid = await studentModel.findById({_id: id})
-     const books = await borrowbooksModel.find({});
-      res.status(200).send({
+    const books = await borrowbooksModel.find({});
+    res.status(200).send({
       message: "Get borrow books fetch successfully",
       success: true,
       data: books,
@@ -373,59 +417,54 @@ app.get("/api/borrowedbooklists/:id", async (req, res) => {
   }
 });
 
-
-
 ///////////////////////testing api joining////////////////////////////
 
 app.post("/api/author", async (req, res) => {
   try {
-    const {name, email} = req.body;
+    const { name, email } = req.body;
     const auth = await author.create({
       name,
-      email
+      email,
     });
-    
+
     res.status(200).send(auth);
   } catch (error) {
     res
-    .status(500)
-    .send({ message: "Error author info", success: false, error });
+      .status(500)
+      .send({ message: "Error author info", success: false, error });
   }
 });
 
-
 app.post("/api/book", async (req, res) => {
   try {
-    const {name, email} = req.body;
+    const { name, email } = req.body;
     const book = await books.create({
       author_id: req.body.author_id,
       title: req.body.title,
-
     });
     const rightjoin = await book.save();
-    
+
     res.status(200).send(rightjoin);
   } catch (error) {
     res
-    .status(500)
-    .send({ message: "Error author info", success: false, error });
+      .status(500)
+      .send({ message: "Error author info", success: false, error });
   }
 });
 
 app.post("/api/authorbookpopulate", async (req, res) => {
   try {
-    const abook = await books.find({_id: req.body.right_id}).populate('author_id');
+    const abook = await books
+      .find({ _id: req.body.right_id })
+      .populate("author_id");
 
     res.status(200).send(abook);
   } catch (error) {
     res
-    .status(500)
-    .send({ message: "Error author info", success: false, error });
+      .status(500)
+      .send({ message: "Error author info", success: false, error });
   }
 });
-
-
-
 
 app.use(errorMiddleware);
 

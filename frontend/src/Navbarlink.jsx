@@ -9,8 +9,8 @@ import Account from './components/Account';
 import Logout from './components/Logout';
 import Books from './components/adminside/Books';
 import Borrowedbooks from './components/adminside/Borrowedbooks';
-import Returnedbooks from './components/adminside/Returnedbooks';
-import Damagecharge from './components/adminside/Damagecharge';
+// import Returnedbooks from './components/adminside/Returnedbooks';
+// import Damagecharge from './components/adminside/Damagecharge';
 import Students from './components/adminside/Students';
 import Admin from './components/adminside/Admin';
 import Bookslist from './components/studentside/Bookslist';
@@ -65,8 +65,8 @@ function App() {
             {isUserSignedIn && <Route path="/dashboard/dashboard" element={<Dashboard />} />}
             {isUserSignedIn && <Route path="/admin/books" element={<Books  userType={userData.userType}/>} />}
             {isUserSignedIn && <Route path="/admin/borrowedbooks" element={<Borrowedbooks  userType={userData.userType}/>} />}
-            {isUserSignedIn && <Route path="/admin/returnedbooks" element={<Returnedbooks />} />}
-            {isUserSignedIn && <Route path="/admin/damagecharge" element={<Damagecharge />} />}
+            {/* {isUserSignedIn && <Route path="/admin/returnedbooks" element={<Returnedbooks />} />} */}
+            {/* {isUserSignedIn && <Route path="/admin/damagecharge" element={<Damagecharge />} />} */}
             {isUserSignedIn && <Route path="/admin/students" element={<Students />} />}
             {isUserSignedIn && <Route path="/admin/admins" element={<Admin />} />}
             {isUserSignedIn && <Route path="/student/booklists" element={<Bookslist />} />} 

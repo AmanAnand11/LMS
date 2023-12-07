@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import logo from "../assets/images/2072841.png";
 import { useEffect, useState } from "react";
-import {  CDBBox, CDBCard, CDBCardBody, CDBContainer } from "cdbreact";
+import { CDBBtn, CDBBox, CDBCard, CDBCardBody, CDBContainer } from "cdbreact";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import {
@@ -39,14 +39,14 @@ export default function Borrowedbookstudent() {
   //       console.log(data, "==========bookData==========");
   //       console.log(data);
   //       setData(data.data);
-          
+
   //     });
   // };
 
 
   const [userData, setUserData] = useState("");
   const [student, setStudent] = useState(false);
-   useEffect(() => {
+  useEffect(() => {
     fetch(`${VITE_BACKEND_URL}/api/userData`, {
       method: "POST",
       crossDomain: true,
@@ -55,7 +55,7 @@ export default function Borrowedbookstudent() {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-        body: JSON.stringify({
+      body: JSON.stringify({
         token: window.localStorage.getItem("token"),
       }),
     })
@@ -73,27 +73,27 @@ export default function Borrowedbookstudent() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  function getId(){
+  function getId() {
     var values = "6531779949714d336c9f1271";
     return values;
   }
-const getAllBooks = async() =>{
+  const getAllBooks = async () => {
     try {
       const id = getId();
-        setIsLoading(true);
-          const response = await axios.get(`${VITE_BACKEND_URL}/api/borrowedbooklists/${id}`)
-          setIsLoading(false);
-          if(response.data.success){
-            setData(response.data.data)
-          }
-          console.log("================response==============");
-          console.log(response);
-      } catch (error) {
-        setIsLoading(false);
+      setIsLoading(true);
+      const response = await axios.get(`${VITE_BACKEND_URL}/api/borrowedbooklists/${id}`)
+      setIsLoading(false);
+      if (response.data.success) {
+        setData(response.data.data)
       }
-    
+      console.log("================response==============");
+      console.log(response);
+    } catch (error) {
+      setIsLoading(false);
     }
-    
+
+  }
+
   useEffect(() => {
     getAllBooks();
   }, []);
@@ -111,6 +111,26 @@ const getAllBooks = async() =>{
   //       });
   //     });
   // }, []);
+  // const [quantityBorrowed, setQuantityBorrowed] = useState(0);
+
+  function returnBorrowedBook(_id, ISBNNumber, quantityBorrowed) {
+    const url = `${VITE_BACKEND_URL}/api/returnbook`;
+    const data = { _id, ISBNNumber, quantityBorrowed };
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        getAllBooks(); // Fetch the updated data
+      })
+      .catch((error) => console.error('Error:', error));
+  }
 
   return (
     <div
@@ -158,7 +178,7 @@ const getAllBooks = async() =>{
                   <Link to="/student/borrowedbooklists">Borrowed Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink>
-              <NavLink
+              {/* <NavLink
                 exact
                 to="/admin/returnedbooks"
                 activeClassName="activeClicked"
@@ -166,8 +186,8 @@ const getAllBooks = async() =>{
                 <CDBSidebarMenuItem icon="book">
                   <Link to="/admin/returnedbooks">Returned Books</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
-              <NavLink
+              </NavLink> */}
+              {/* <NavLink
                 exact
                 to="/admin/students"
                 activeClassName="activeClicked"
@@ -175,8 +195,8 @@ const getAllBooks = async() =>{
                 <CDBSidebarMenuItem icon="user">
                   <Link to="/admin/students">Profile</Link>
                 </CDBSidebarMenuItem>
-              </NavLink>
-      
+              </NavLink> */}
+
               <NavLink
                 exact
                 to="/hero404"
@@ -217,51 +237,66 @@ const getAllBooks = async() =>{
           <CDBContainer>
             <CDBCard>
               <CDBCardBody>
-               {userData._id && (
-                <Table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Book Name</th>
-                    <th>ISBN Number</th>
-                    <th>Author Name</th>
-                    <th>Publisher Name</th>
-                    <th>Published Date</th>
-                    <th>Quantity</th>
-                    <th>Days borrowed</th>
-                    <th>Student Name</th>
-                    <th>Reference Code</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((i, index) => {
-                    return (
-                      <>
-                        <tr key={index}>
-                          <td>{i.bookname}</td>
-                          <td>{i.ISBNNumber}</td>
-                          <td>{i.authorname}</td>
-                          <td>{i.publishername}</td>
-                          <td>{i.publisheddate}</td>
-                          <td>{i.quantity}</td>
-                          <td>{i.daysborrow}</td>
-                          <td>{i.studentName}</td>
-                          <td>{i.referenceCode}</td>
-                          <td>
-                            {i.status === "pending" ? (
-                              <Badge bg="warning">Pending</Badge>
-                            ) : (
-                              <Badge bg="success">Approved</Badge>
-                            )}
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </Table>
-               )}
-     
+                {userData._id && (
+                  <Table className="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Book Name</th>
+                        <th>ISBN Number</th>
+                        <th>Author Name</th>
+                        <th>Publisher Name</th>
+                        <th>Published Date</th>
+                        <th>Quantity</th>
+                        <th>Days borrowed</th>
+                        <th>Student Name</th>
+                        <th>Reference Code</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data
+                        .filter(i => i.borrowed._id === userData._id)
+                        .map((i, index) => {
+                          return (
+                            <>
+                              <tr key={index}>
+                                <td>{i.bookname}</td>
+                                <td>{i.ISBNNumber}</td>
+                                <td>{i.authorname}</td>
+                                <td>{i.publishername}</td>
+                                <td>{i.publisheddate}</td>
+                                <td>{i.quantity}</td>
+                                <td>{i.daysborrow}</td>
+                                <td>{i.studentName}</td>
+                                <td>{i.referenceCode}</td>
+                                <td>
+                                  {i.status === "pending" ? (
+                                    <Badge bg="warning">Pending</Badge>
+                                  ) : (
+                                    <Badge bg="success">Approved</Badge>
+                                  )}
+                                </td>
+                                <td>
+                                  <CDBBtn
+                                    color="primary"
+                                    onClick={() => {
+                                      returnBorrowedBook(i._id, i.ISBNNumber, i.quantity);
+                                    }}
+                                    disabled={i.status !== 'approved'} // Button will be disabled if status is not 'approved'
+                                    style={i.status !== 'approved' ? { opacity: 0.5 } : {}}
+                                  >
+                                    Return
+                                  </CDBBtn>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                    </tbody>
+                  </Table>
+                )}
+
               </CDBCardBody>
             </CDBCard>
           </CDBContainer>
