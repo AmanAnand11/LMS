@@ -121,7 +121,7 @@ app.get("/api/getAllBooks", async (req, res) => {
 
     // Define the filter based on the search query
     //console.log(typeof(searchQuery))
-    const filter = searchQuery ? { bookname: searchQuery } : {};
+    const filter = searchQuery ? { bookname: { $regex: searchQuery, $options: "i" } } : {};
     //console.log(filter);
 
     // Use the filter in the find method to fetch books with matching names

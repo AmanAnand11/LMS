@@ -61,7 +61,7 @@ const [student, setStudent] = useState(false);
  //get all books
 
  useEffect(() => {
-    getAllBooks();
+    getAllBooks({});
   }, []);
 
 
