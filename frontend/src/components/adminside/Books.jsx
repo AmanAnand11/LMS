@@ -686,7 +686,7 @@ export default function Books({ userType }) {
                         style={{ display: "none" }}
                         name="id"
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, id: e.target.value })
                         }
                         value={book.id}
                       />
@@ -694,7 +694,7 @@ export default function Books({ userType }) {
                         type="text"
                         value={book.bookname}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, bookname: e.target.value })
                         }
                         placeholder="Enter Book Name"
                       />
@@ -712,7 +712,7 @@ export default function Books({ userType }) {
                         type="text"
                         value={book.booknumbercode}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, booknumbercode: e.target.value })
                         }
                         placeholder="Enter Number or Code"
                       />
@@ -728,7 +728,7 @@ export default function Books({ userType }) {
                         type="text"
                         value={book.ISBNNumber}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book,ISBNNumber: e.target.value })
                         }
                         placeholder="Enter ISBN Number"
                       />
@@ -746,7 +746,7 @@ export default function Books({ userType }) {
                         type="text"
                         value={book.authorname}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, authorname: e.target.value })
                         }
                         placeholder="Enter Author Name"
                       />
@@ -762,7 +762,7 @@ export default function Books({ userType }) {
                         type="text"
                         value={book.publishername}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, publishername: e.target.value })
                         }
                         placeholder="Enter Publisher Name"
                       />
@@ -780,7 +780,7 @@ export default function Books({ userType }) {
                         type="date"
                         value={book.publisheddate}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, publisheddate: e.target.value })
                         }
                         placeholder="Enter Date Published"
                       />
@@ -796,7 +796,7 @@ export default function Books({ userType }) {
                         type="number"
                         value={book.quantity}
                         onChange={(e) =>
-                          setBook({ ...book, name: e.target.value })
+                          setBook({ ...book, quantity: e.target.value })
                         }
                         placeholder="Enter Quantity"
                       />
