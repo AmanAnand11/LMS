@@ -16,6 +16,7 @@ import Admin from './components/adminside/Admin';
 import Bookslist from './components/studentside/Bookslist';
 import Notfound from './Notfound';
 import Borrowedbookstudent from './components/studentside/Borrowedbookstudent';
+import Profile from './components/studentside/Profile';
 import { VITE_BACKEND_URL } from './App';
 
 
@@ -70,7 +71,8 @@ function App() {
             {isUserSignedIn && <Route path="/admin/students" element={<Students />} />}
             {isUserSignedIn && <Route path="/admin/admins" element={<Admin />} />}
             {isUserSignedIn && <Route path="/student/booklists" element={<Bookslist />} />} 
-            {isUserSignedIn && <Route path="/student/borrowedbooklists" element={<Borrowedbookstudent />} />}          
+            {isUserSignedIn && <Route path="/student/borrowedbooklists" element={<Borrowedbookstudent />} />}    
+            {isUserSignedIn && <Route path="/student/profile" element={<Profile />} />}      
             <Route path="*" element={<Notfound />} />
             <Route path="/account" element={<Account />} />
             <Route path="/logout" element={<Logout />} />

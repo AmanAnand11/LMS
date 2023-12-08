@@ -187,15 +187,9 @@ export default function Borrowedbookstudent() {
                   <Link to="/admin/returnedbooks">Returned Books</Link>
                 </CDBSidebarMenuItem>
               </NavLink> */}
-              {/* <NavLink
-                exact
-                to="/admin/students"
-                activeClassName="activeClicked"
-              >
-                <CDBSidebarMenuItem icon="user">
-                  <Link to="/admin/students">Profile</Link>
-                </CDBSidebarMenuItem>
-              </NavLink> */}
+              <NavLink exact to="/student/profile" activeClassName="activeClicked">
+                <CDBSidebarMenuItem icon="user"><Link to="/student/profile">Profile</Link></CDBSidebarMenuItem>
+              </NavLink>
 
               <NavLink
                 exact
